@@ -56,12 +56,12 @@ const nextConfig = {
       },
       {
         source: "/membership/sv",
-        destination: "",
+        destination: "https://docs.google.com/forms/d/e/1FAIpQLScP6VuH42ZrT9mvT-AZ5_U0UwVz9YNdNcbYJccZyaJczrm1Yw/viewform",
         permanent: true,
       },
       {
         source: "/membership/mk",
-        destination: "",
+        destination: "https://forms.gle/n7NhpyfyXFBkVJ25A",
         permanent: true,
       },
     ]
