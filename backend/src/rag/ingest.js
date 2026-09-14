@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import pdfParse from "pdf-parse";
+// import pdfParse from "pdf-parse";  // Commented out - not needed for ieee.json ingestion
 import dotenv from "dotenv";
 import { chunkText, chunkRecords } from "./chunker.js";
 import { embedBatch } from "./embeddings.js";
@@ -12,6 +12,11 @@ dotenv.config({ path: path.resolve(path.dirname(fileURLToPath(import.meta.url)),
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.resolve(__dirname, "../../../data");
 const IEEE_JSON_PATH = path.resolve(__dirname, "../ieee.json");
+
+// Create data dir if it doesn't exist (for deployment)
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
 
 // ──────────────────────────────────────────────
 // IEEE Global Knowledge — real, factual data
@@ -125,8 +130,10 @@ async function main() {
 
   for (const file of pdfFiles) {
     const filePath = path.join(DATA_DIR, file);
-    console.log(`   📖 Reading: ${file} ...`);
-
+    console.log(`   📖 Skipping PDF (pdf-parse not installed): ${file}`);
+    // PDF processing disabled - only using ieee.json for now
+    // Uncomment below and install pdf-parse if you need PDF ingestion
+    /*
     try {
       const dataBuffer = fs.readFileSync(filePath);
       const pdfData = await pdfParse(dataBuffer);
@@ -143,6 +150,7 @@ async function main() {
     } catch (err) {
       console.error(`   ❌ Failed to parse ${file}: ${err.message}`);
     }
+    */
   }
 
   // ──── Step 2: Process ieee.json ────
